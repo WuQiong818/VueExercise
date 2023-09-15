@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姓名案例</title>
+    <script type="text/javascript" src="../JS/vue.js"></script>
+</head>
+<body>
+    <!-- 只要模板中所绑定的数据发生了改变，就会Vue就会重新对这一个模板记性解析
+        重新去执行fullName方法，而不管这一个方法所依赖的数据有没有发生变动吗【整体解析】
+    -->
+    <div id="root">
+        <input type="text" v-model="msg1"><br><br>
+        <input type="text" v-model="msg2"><br><br>
+        <input type="text" v-model="test"><br><br>
+        <input type="text"><br><br>
+        <h3>{{fullName()}}</h3>
+
+    </div>
+    <script type="text/javascript">
+        new Vue({
+            el:'#root',
+            data:{
+                msg1:'张',
+                msg2:'三',
+                test:'12'
+            },
+            methods: {
+                fullName(){
+                    console.log("方法被调用了");
+                    return this.msg1 +"-" + this.msg2
+                }
+            }
+
+        })
+        
+    </script>
+</body>
+</html>

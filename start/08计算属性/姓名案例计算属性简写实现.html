@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姓名案例计算属性实现</title>
+    <script type="text/javascript" src="../JS/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <input type="text" v-model="firstName"><br><br>
+        <input type="text" v-model="lastName"><br><br>
+        <h3>{{fullName}}</h3>
+        <h3>{{fullName}}</h3>
+        <h3>{{fullName}}</h3>
+        <h3>{{fullName}}</h3>
+
+
+    </div>
+    <script type="text/javascript">
+        // 计算属性的简写仅仅在值获取数据，
+        //不对数据进行更改的时候，才可以简写，否则就好好写完整的形式
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                firstName:'张',
+                lastName:'三'
+            },
+            //计算属性的简写是直接把计算属性名作为一个函数写下来
+            computed: {
+                fullName(){
+                        console.log("get方法调用了");
+                        return this.firstName +'='+ this.lastName; //get方法要有return
+                }
+                /* fullName:{
+                    get(){
+                        console.log("get方法调用了");
+                        return this.firstName +'='+ this.lastName; //get方法要有return
+                    },
+                    set(value){
+                        var arr = value.split('-')
+                        console.log(arr);
+                        //这里进行值的修改的时候，一定要注意注意this的指向问题
+                        this.firstName = arr[0];//set方法要对data中的数据进行更改
+                        this.lastName = arr[1];
+                    }
+                } */
+            }
+        })
+        
+    </script>
+</body>
+</html>

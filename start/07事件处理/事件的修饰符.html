@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件的修饰符</title>
+    <script type="text/javascript" src="../JS/vue.js"></script>
+</head>
+
+<body>
+
+    <!--
+        常用的事件修饰符一共有六种
+            1.prevent 阻止标签的默认事件
+            2.stop 阻止嵌套标签的冒泡 [冒泡是在不想要引起冒泡的元素上面添加，可以直接把冒泡给断了]
+            3.once 事件只触发一次
+            4.capture 使用事件的捕获方式，默认是冒泡模式
+            ||仅仅针对设置这一个元素本身而言，范围不扩散。其他的元素依旧是以冒泡的形式进行触发
+            ||可以理解成事件触发分为两个阶段，一个是捕获阶段，一个是冒泡阶段，一旦一个元素设置了capture之后，就会在捕获阶段提前触发。
+            5.self 只有event.target是当前操作的元素是才触发事件
+            6.passive 事件的默认行为立即执行，无需到等待事件回调执行完毕，
+            //这个是针对不同的元素而言的，有的事件就是直接执行默认行为，有的是先执行回调函数
+     -->
+
+    <!-- Vue数据存放容器 -->
+    <div id="root">
+        <h1>Hello</h1>
+        <!-- <a href="https://www.bilibili.com/" v-on:click.prevent="hello">bilibili</a> -->
+        <a href="https://www.bilibili.com/" @click.prevent="hello">bilibili</a>
+
+        <div @click.capture="hello(1)">
+            <div @click="hello(2)">
+                <input type="button" @click.capture="hello(3)" value="按钮">
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        //创建Vue实例
+        new Vue({
+            el: "#root",
+            data: {
+                name: 'Vue',
+                age: '15'
+            },
+            methods: {
+                hello(value) {
+                    // alert(value)
+                    console.log(value);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
