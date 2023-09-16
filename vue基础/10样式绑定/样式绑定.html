@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>样式绑定</title>
+    <style>
+        .basic {
+            width: 400px;
+            height: 100px;
+            border: 1px solid black;
+        }
+
+        .happy {
+            border: 4px solid red;
+            ;
+            background-color: rgba(255, 255, 0, 0.644);
+            background: linear-gradient(30deg, yellow, pink, orange, yellow);
+        }
+
+        .sad {
+            border: 4px dashed rgb(2, 197, 2);
+            background-color: gray;
+        }
+
+        .normal {
+            background-color: skyblue;
+        }
+
+        .atguigu1 {
+            background-color: yellowgreen;
+        }
+
+        .atguigu2 {
+            font-size: 30px;
+            text-shadow: 2px 2px 10px red;
+        }
+
+        .atguigu3 {
+            border-radius: 20px;
+        }
+    </style>
+    <script src="../JS/vue.js"></script>
+</head>
+<!-- 
+            绑定可以分为两部分：
+            一种是固定绑定，传统的写法，直接在vue模板中使用class=" "
+            另一种是动态绑定，是在vue模板中书写指令，动态绑定的写法多种多样，有字符串式、数组式、对象式
+         -->
+
+
+
+
+<body>
+    <div id="root">
+        <!-- 绑定class样式--字符串写法，适用于：样式的类名不确定，需要动态指定 -->
+        <div class="basic" :class="mood" @click="changeMood">{{name}}</div> <br /><br />
+
+        <!-- 绑定class样式--数组写法，适用于：要绑定的样式个数不确定、名字也不确定 -->
+        <div class="basic" :class="classArr">{{name}}</div> <br /><br />
+
+        <!-- 绑定class样式--对象写法，适用于：要绑定的样式个数确定、名字也确定，但要动态决定用不用 -->
+        <div class="basic" :class="classObj">{{name}}</div> <br /><br />
+
+        <!-- 绑定style样式--对象写法 -->
+        <div class="basic" :style=[styleObj,styleObj2]>{{name}}</div> <br /><br />
+        <!-- 绑定style样式--数组写法 -->
+        <div class="basic" :style="styleObj">{{name}}</div> <br/><br/>
+        <!-- 单个绑定 -->
+        <div class="basic" :style="{fontSize:fsize}">{{name}}</div>
+    </div>
+    <script>
+        new Vue({
+            el: '#root',
+            data: {
+                name: 'wangye',
+                //个数为1,名字都是确定的，直接进行动态绑定，这里虽然是使用的随机数，但是本质上来说也都是确定了
+                mood: 'sad',
+                //样式的个数和名字都不确定，使用数据好进行添加和删除操作
+                classArr:['atguigu1','atguigu2','atguigu3'],
+                //样式的个数和名字都确定，但是不知道使用不使用，给出更多的排列组合，共用户自己选择
+                classObj:{
+                    atguigu1 : false,
+                    atguigu2 : true,
+                    atguigu3 : false,
+                },
+
+                styleObj:{
+                    fontSize:'40px',
+                    backgroundColor:'skyblue',
+                },
+                styleObj2:{
+                    color:'red',
+                },
+                styleArr:[//这个是数组里面放置两个普通对象;
+                {
+                    fontSize:'40px',
+                    backgroundColor:'skyblue',
+                },
+                {
+                    color:'red',
+                }
+                ],
+                fsize:'40px'
+            },
+            methods: {
+                changeMood() {
+                    const arr = ['happy','sad','normal']
+                    const random = Math.floor(Math.random() * 3);
+                    this.mood = arr[random]
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

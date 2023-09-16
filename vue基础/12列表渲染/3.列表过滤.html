@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列表过滤</title>
+    <script type="text/javascript" src="../JS/vue.js"></script>
+</head>
+
+<body>
+    <!-- Vue数据存放容器 -->
+    <div id="root">
+        <h1>Hello</h1>
+        <input type="text" v-model="keyword">
+        <h4 v-for="p of tempPersons">{{p.name}}</h4>
+    </div>
+    <script type="text/javascript">
+        //这个是使用watch()实现的;
+        /* new Vue({
+            el: "#root",
+            data: {
+                keyword: '',
+                persons: [
+                    { id: '001', name: '马冬梅', age: 19, sex: '女' },
+                    { id: '002', name: '周冬雨', age: 20, sex: '女' },
+                    { id: '003', name: '周杰伦', age: 21, sex: '男' },
+                    { id: '004', name: '温兆伦', age: 22, sex: '男' }
+                ],
+                tempPersons: [],
+            },
+            watch: {
+                keyword: {
+                    //当用户什么都没有输入的时候，空字符串会匹配persons中所有的内容
+                    //这也是为什么之前写todolist和搜索联想是总是需要去排除用户未输入内容的情况
+                    immediate:true,
+                    handler(value) {
+                        this.tempPersons = this.persons.filter((p) => {
+                            return p.name.indexOf(this.keyword) !== -1
+                        })
+                    }
+                }
+            }
+        }) */
+
+        //使用computed实现
+        new Vue({
+            el: '#root',
+            data: {
+                keyword: '',
+                persons: [
+                    { id: '001', name: '马冬梅', age: 19, sex: '女' },
+                    { id: '002', name: '周冬雨', age: 20, sex: '女' },
+                    { id: '003', name: '周杰伦', age: 21, sex: '男' },
+                    { id: '004', name: '温兆伦', age: 22, sex: '男' }
+                ],
+            },
+            computed: {
+                //当tempPersons所依赖的数据发生变动是，便会重新调用tempPersons中的get方法，即这里的tempPersons;
+                tempPersons() {
+                    return this.persons.filter((p) => {
+                        return p.name.indexOf(this.keyword) !== -1
+                    })
+                }
+            }
+        })
+
+    </script>
+</body>
+
+</html>

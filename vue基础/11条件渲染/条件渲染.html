@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>条件渲染</title>
+    <script src="../JS/vue.js"></script>
+</head>
+    <!-- 
+        v-if 与 v-show
+        两者都可以对相应的条件做出一定条件筛选，
+        不同是的v-if直接不去渲染不符合条件的元素
+        v-show是将不符合条件的元素的display设置成none
+     -->
+     <!-- 
+	    条件渲染：
+	    	1.v-if
+	    				写法：
+	    						(1).v-if="表达式" 
+	    						(2).v-else-if="表达式"
+	    						(3).v-else="表达式"
+	    				适用于：切换频率较低的场景。
+	    				特点：不展示的DOM元素直接被移除。
+	    				注意：v-if可以和:v-else-if、v-else一起使用，但要求结构不能被“打断”。
+
+	    	2.v-show
+	    				写法：v-show="表达式"
+	    				适用于：切换频率较高的场景。
+	    				特点：不展示的DOM元素未被移除，仅仅是使用样式隐藏掉
+        
+	    	3.备注：使用v-if的时，元素可能无法获取到，而使用v-show一定可以获取到。
+            一个是直接不渲染，一个是不进行展示。
+		 -->
+<body>
+    <div id="root">
+        <h1>点击下方按钮,让更多精彩内容出现</h1>
+        <input type="button" value="点击我" @click="number++">
+        <li v-if="number===1">1</li>
+        <li v-else-if="number===2">2</li>
+        <li v-else="number===3">3</li>
+    </div>
+    <script>
+        new Vue({
+            el:'#root',
+            data:{
+                number:0,
+            }
+        })
+    </script>
+</body>
+
+</html>

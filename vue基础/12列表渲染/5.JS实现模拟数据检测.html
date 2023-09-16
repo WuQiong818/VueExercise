@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="../JS/vue.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <h1>Hello</h1>
+    </div>
+    <!-- 这么才可以发现数据发生了改变。 -->
+    <!-- 
+
+        1.使用计时器，但是这种方法明显不现实，不断开计时器，是会开死的。
+        2.数据改变，不通过普通的方法进行，而是通过get和set方法进行，
+        即让数据的变更通过一个方法去改变，用这一方法做更多的事情，来通知vue重新解析模板，进行加载数据的操作。
+            1.用普通代理写的，结果写了一个死循环，栈溢出了。
+            2.中间需要再加一层，怎么加？
+
+
+     -->
+    <script type="text/javascript">
+
+        let data = {
+            name: 'wangye',
+            age: '15',
+        }
+
+        //这里少东西，在控制台上通过data.name获取数据，直接通过data获取了，并走get方法 
+        const obs = new Observer(data)
+        console.log(obs);
+        console.log("obsname"+obs[name]);//好神奇，在这里就是underfined了
+        let vm = {}
+
+        const keys = Object.keys(data)
+        keys.forEach((k)=>{
+                Object.defineProperty(vm,k,{
+                    get(){
+                        console.log(obs);
+                        console.log("key"+k);
+                        console.log("obsname"+obs[k]);
+                        return obs[k]
+                    },
+                    set(value){
+                        obs[k] = value
+                    }
+                })
+            })
+
+
+
+        vm._data = data = obs;
+
+        // Object.defineProperty(vm,"name",{
+        //     get(){
+        //         return vm._data.name;
+        //     },
+        //     set(value){
+        //         vm._data.name = value
+        //     }
+        // })
+
+        
+
+
+        function Observer(obj){
+            //汇总对象中所有的属性形成一个数组 注意：这里是属性，为了方便做后面的数据代理
+            const keys = Object.keys(obj)
+            //遍历
+            keys.forEach((k)=>{
+                Object.defineProperty(this,k,{//this指的是obj,传入的参数，k遍历的属性
+                    get(){
+                        return obj[k]//对象是通过obj[key]来获取value的
+                    },
+                    set(value){
+                        console.log(`${k}被改了，我要去解析模板，生成虚拟DOM.....我要开始忙了`)
+                        obj[k] = value
+                    }
+                })
+            })
+
+        }
+
+
+
+
+
+       /*方法1：普通代理  死循环，栈溢出了
+        Object.defineProperty(data, 'name', {
+            get() {
+                return data.name
+            },
+            set(value) {
+                console.log("data中的数据发生了更改了");
+                data.name = value
+            }
+        }) */
+    </script>
+</body>
+
+</html>
