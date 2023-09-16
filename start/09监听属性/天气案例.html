@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,26 +8,42 @@
     <title>天气案例</title>
     <script src="../../JS/vue.js"></script>
 </head>
+
 <body>
+    <!-- 
+        在data中定义最基础的数据，boolean的类型
+        编写一个方法，用户点击按钮之后，更改data中action的属性，
+        之后，使用computed计算属性，进行从boolean类型，到正常数据的转化。不展示boolean,而是String
+
+     -->
+
+
     <div id="root">
-        <h1>今天{{action}}上课</h1>
-        <button v-on:click = active()>临时更改</button>
+        <h1>今天{{result}}上课</h1>
+        <input type="button" v-on:click="active" value="改变行动">
     </div>
 
-    <script type="text/javascript">
+    <script>
         new Vue({
-            el:"#root",
-            data:{
-                action:false
+            el: '#root',
+            data: {
+                action: false,
             },
             methods: {
-                active(){
-                    this.action = !this.action;
-                    return this.action ? "去" : "去"
+                active() {
+                    this.action = !this.action
+                }
+            },
+            computed: {
+                result() {
+                    console.log("get方法调用了，进行数据的获取");
+                    return this.action ? '去' : '不去'
                 }
             }
         })
 
+
     </script>
 </body>
+
 </html>

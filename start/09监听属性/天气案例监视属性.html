@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气案例</title>
+    <script src="../../JS/vue.js"></script>
+</head>
+
+        <!-- 
+            监听属性watch:
+                1.当被监视的属性发生变化时，回调函数会自动调用，进行相关的操作；
+                2.监视的属性必须存在，才能进行监视，不存在也不会报错，只是不能运行了
+                3.监视的两种写法：
+                    1.new Vue 是传入watch{
+                        watch:{
+                                监听的数据:{
+                                immeadate:
+                                handler(){}
+                                    }
+                        }
+                        
+                    }的配置，【提前知道了自己要监听什么数据】
+                    2.用户vm.$watch进行监视 vm.$watch('监听元素'，{
+                        immediate : true
+                        handler(){
+
+                        }
+                    })
+
+
+         -->
+
+<body>
+    <div id="root">
+        <h1>今天{{result}}上课</h1>
+        <input type="button" v-on:click="active" value="改变行动">
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: '#root',
+            data: {
+                action: false,
+            },
+            methods: {
+                active() {
+                    this.action = !this.action
+                }
+            },
+            computed: {
+                result: {
+                    get() {
+                        return this.action ? '去' : '不去'
+                    }
+                }
+            },
+            /*  watch: {
+                 action:{
+                     immediate : true,//添加输出，初始化的时候，先调用一次。
+                     //handler什么时候调用？当监听的  action属性发生改变的时候  发生改变时。
+                     handler(newValue,oldValue){
+                         console.log("action更改了",newValue,oldValue);
+                     }
+                 }
+             } */
+        })
+        vm.$watch('action', {
+            immediate : true,
+            handler(newValue,oldValue){
+                console.log("action更改了",newValue,oldValue);
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>

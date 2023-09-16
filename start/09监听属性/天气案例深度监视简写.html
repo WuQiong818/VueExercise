@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气案例_深度监视</title>
+    <script src="../../JS/vue.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <h1>{{result}}上课</h1>
+        <h1>{{number.a}}</h1>
+        <h1>{{number.b}}</h1>
+        <h1>{{number.c}}</h1>
+        <input type="button" v-on:click="active" value="改变行动">
+        <input type="button" v-on:click="number.a++" value="a">
+        <input type="button" v-on:click="number.b++" value="b">
+        <input type="button" v-on:click="number.c++" value="c">
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: '#root',
+            data: {
+                action: false,
+                number: {
+                    a: 1,
+                    b: 2,
+                    c: 3,
+                }
+            },
+            methods: {
+                active() {
+                    this.action = !this.action
+                }
+            },
+            computed: {
+                result: {
+                    get() {
+                        return this.action ? '去' : '不去'
+                    }
+                }
+            },
+
+            watch: {
+                //正常写法;
+                /* number: {
+                    immediate: true,//添加输出，初始化的时候，先调用一次。
+                    deep: true,
+                    //handler什么时候调用？当监听的  action属性发生改变的时候  发生改变时。
+                    handler(newValue, oldValue) {
+                        console.log("number更改了", newValue, oldValue);
+                    }
+                } */
+
+                //简写，和计算属性的简写差不多;
+                //如果监听中没有immediate属性和deep属性，则可以进行简写
+                /* number(newValue, oldValue) {
+                        console.log("number更改了", newValue, oldValue);
+                    }
+                } */
+            }
+        })
+    </script>
+</body>
+
+</html>

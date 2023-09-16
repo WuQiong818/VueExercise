@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姓名案例watch实现</title>
+    <script type="text/javascript" src="../JS/vue.js"></script>
+</head>
+<body>
+        <!-- 
+			computed和watch之间的区别：
+					1.computed能完成的功能，watch都可以完成。
+					2.watch能完成的功能，computed不一定能完成，例如：watch可以进行异步操作。
+
+			两个重要的小原则：
+						1.所被Vue管理的函数，最好写成普通函数，这样this的指向才是vm 或 组件实例对象。
+						2.所有不被Vue所管理的函数（定时器的回调函数、ajax的回调函数等、Promise的回调函数），最好写成箭头函数，
+						这样this的指向才是vm 或 组件实例对象。
+
+            共同之处:
+            computed和watch都能都及时地对新数据做出反应
+            computed是能够获取被依赖的更新数据
+            watch是更够检测出数据是否做了变更，并以此做出一些反应。
+		-->
+
+
+    <div id="root">
+        <input type="text" v-model="firstName"><br><br>
+        <input type="text" v-model="lastName"><br><br>
+        <h1>{{fullName}}</h1>
+        <h1>{{fullName}}</h1>
+    </div>
+    <script type="text/javascript">
+        // 计算属性的简写仅仅在值获取数据，
+        //不对数据进行更改的时候，才可以简写，否则就好好写完整的形式
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                firstName:'张',
+                lastName:'三',
+                fullName:'张三',
+            },
+            watch:{
+                firstName(value){
+                    setTimeout(() => {
+                        console.log("改变了");
+                        this.fullName= value + this.lastName
+                    }, 3000);
+                    
+                },
+                lastName(value){
+                    this.fullName= this.firstName  + value
+                }
+            }
+        })
+        
+    </script>
+</body>
+</html>
