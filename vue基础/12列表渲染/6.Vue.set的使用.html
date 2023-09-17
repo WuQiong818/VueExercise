@@ -9,15 +9,22 @@
     <script type="text/javascript" src="../JS/vue.js"></script>
 </head>
 
+<!-- 在vue中只有通过vue.set()或者 -->
+
 <body>
     <!-- Vue数据存放容器 -->
 
     <div id="root">
         <h1>Hello</h1>
-        姓名:<p>{{info.name}}</p>
-        年龄:<p>{{info.age}}</p>
-        性别:<p>{{info.sex}}</p>
+        <li>姓名:<p>{{info.name}}</p>
+        </li>
+        <li> 年龄:<p>{{info.age}}</p>
+        </li>
+        <li v-if="info.sex"> 性别:<p >{{info.sex}}</p>
+        </li>
         <input type="button" @click="addSex" value="点我添加性别">
+        <input type="button" @click="updateSex" value="点我更改性别">
+
     </div>
 
     <script type="text/javascript">
@@ -33,6 +40,16 @@
             methods: {
                 addSex() {
                     this.$set(this.info, 'sex', '男')
+                },
+                updateSex(){
+                    const sex =this._data.info.sex//=vue的底层是_data 而不是data
+                    console.log(sex);
+                    if(sex==='男'){
+                        this.$set(this.info, 'sex', '女')
+                    }else{
+                        this.$set(this.info, 'sex', '男') 
+                    }
+                    
                 }
             }
         })

@@ -21,8 +21,6 @@
         即让数据的变更通过一个方法去改变，用这一方法做更多的事情，来通知vue重新解析模板，进行加载数据的操作。
             1.用普通代理写的，结果写了一个死循环，栈溢出了。
             2.中间需要再加一层，怎么加？
-
-
      -->
     <script type="text/javascript">
 
@@ -30,13 +28,16 @@
             name: 'wangye',
             age: '15',
         }
-
+        let a='name'
         //这里少东西，在控制台上通过data.name获取数据，直接通过data获取了，并走get方法 
         const obs = new Observer(data)
-        console.log(obs);
-        console.log("obsname"+obs[name]);//好神奇，在这里就是underfined了
+        console.log(12);
+        console.log(obs);//可以正常获取 Observer
+        console.log("obsname="+obs[a]);//undefined  obs.wangye
+        console.log("obsname="+obs.name);//正常
         let vm = {}
 
+        //这里是用vm进行observe的代理，方便数据的获取
         const keys = Object.keys(data)
         keys.forEach((k)=>{
                 Object.defineProperty(vm,k,{
@@ -52,20 +53,7 @@
                 })
             })
 
-
-
         vm._data = data = obs;
-
-        // Object.defineProperty(vm,"name",{
-        //     get(){
-        //         return vm._data.name;
-        //     },
-        //     set(value){
-        //         vm._data.name = value
-        //     }
-        // })
-
-        
 
 
         function Observer(obj){
