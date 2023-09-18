@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- 
+    v-text指令：
+		1.作用：向其所在的节点中渲染文本内容。
+		2.与插值语法的区别：v-text会替换掉节点中的内容，{{xx}}则不会。
+ -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,15 +15,16 @@
 
 <body>
     <div id="root">
-
-
+        <h1 >{{name}}</h1>
+        <h1 v-text="number">{{name}}</h1>
     </div>
 
     <script>
         new Vue({
             el: '#root',
             data: {
-
+                number:12345678,
+                name:"wang"
             }
         })
     </script>

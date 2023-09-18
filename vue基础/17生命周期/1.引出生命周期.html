@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>引出生命周期</title>
+    <script src="../JS/vue.js"></script>
+</head>
+<!-- 
+    动态绑定对象只有两种形式：
+        1、:style = "{key:value}"
+        2、:style="[{},{},{}]"数组对象的形式
+
+
+ -->
+
+<body>
+    <div id="root">
+        <h1 :style="{opacity}">欢迎学习Vue</h1>
+        <button type="button" @click="add">点我加加</button>
+        <h1>{{n}}</h1>
+        <h1>{{test()}}</h1>
+    </div>
+    <!-- 
+    1.methods中的回调函数，只有在被调用的时候，才会被调用，
+       所使用的数据发生改变并不会自动调用函数
+       这里之所以会不断地调用函数，原因是模板被重新解析了，所以不断调用change()
+       导致计时器不断开启。
+    2.函数是需要被调用的，如果我们是使用原生JS,那么我们可以利用页面被加载完毕后的事件，去调用函数
+    在Vue中我们也需要有一些这样特殊的时刻，当页面加载完毕后调用计时器。
+
+    3.生命周期：
+	    又名：生命周期回调函数、生命周期函数、生命周期钩子。
+	    是什么：Vue在关键时刻帮我们调用的一些特殊名称的函数。
+	    生命周期函数的名字不可更改，但函数的具体内容是程序员根据需求编写的。
+	    生命周期函数中的this指向是vm 或 组件实例对象。
+
+
+ -->
+
+
+
+    <script>
+        new Vue({
+            el: '#root',
+            data: {
+                opacity: 1,
+                n: 1,
+            }, methods: {
+                // change() {
+                //     /* methods中的回调函数，只有在被调用的时候，才会被调用，
+                //     所使用的数据发生改变并不会自动调用函数
+                //     这里之所以会不断地调用函数，原因是模板被重新解析了，所以不断调用change()
+                //     导致计时器不断开启。*/
+                //     // 我们在change方法中更改opacity
+                //     console.log();
+                //     // setInterval(() => {
+                //     //     vm.opacity -= 0.01
+                //     //     if (vm.opacity <= 0) {
+                //     //         vm.opacity = 1
+                //     //     }
+                //     // }, 16)
+                // },
+                add() {
+                    this.n++
+                },
+                test() {//为什么这一个方法会不断地调用呢？
+                    console.log("test()方法被调用了", this.n);
+                }
+            },
+            //Vue完成模板的解析并把初始的真实DOM元素放入页面后（挂载完毕）调用mounted
+            mounted() {
+                // 这一个计时器后续会对这个页面的加载造成什么样的影响？
+                // setInterval(() => {
+                //     this.opacity -= 0.01
+                //     if (this.opacity <= 0) {
+                //         this.opacity = 1
+                //     }
+                // }, 16)
+            },
+        })
+
+        //这种在vue外边定义的计时器，和vue本质上来说并没有什么太大的关系
+        //还是利用之前所学的,这样实现也不符合组件开发的要求。
+
+    </script>
+
+</body>
+
+</html>

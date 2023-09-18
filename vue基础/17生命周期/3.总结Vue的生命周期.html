@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>引出生命周期</title>
+    <script src="../JS/vue.js"></script>
+</head>
+<!-- 
+    动态绑定对象只有两种形式：
+        1、:style = "{key:value}"
+        2、:style="[{},{},{}]"数组对象的形式
+
+    常用的生命周期钩子：
+		1.mounted: 发送ajax请求、启动定时器、绑定自定义事件、订阅消息等【初始化操作】。
+		2.beforeDestroy: 清除定时器、解绑自定义事件、取消订阅消息等【收尾工作】。
+
+        输入断点：
+        debugger
+
+    关于销毁Vue实例:
+		1.销毁后借助Vue开发者工具看不到任何信息。
+		2.销毁后自定义事件会失效，但原生DOM事件依然有效。
+		3.一般不会在beforeDestroy操作数据，因为即便操作数据，也不会再触发更新流程了。
+ -->
+
+<body>
+    <div id="root">
+        <h1 :style="{opacity}">欢迎学习Vue</h1>
+        <button type="button" @click="add">点我加加</button>
+        <h1>{{n}}</h1>
+        <h1>{{test()}}</h1>
+        <button type="button" @click="bye">销毁vm</button>
+    </div>
+    <!-- 
+
+ -->
+
+    <script>
+        new Vue({
+            el: '#root',
+            data: {
+                opacity: 1,
+                n: 1,
+            }, 
+            methods: {
+                add() {
+                    this.n++
+                },
+                test() {//为什么这一个方法会不断地调用呢？
+                    /* 
+                    1.应为计时器的存在造成opacity不断更新
+                    Vue对每一次data中数据的更新，都会生成一个新的虚拟DOM,
+                    由于使用插值语法，Vue在进行虚拟DOM解析的时候，会自动调用test()方法
+                    */
+                    console.log("test()方法被调用了", this.n);
+                    return 10
+                },
+                bye(){
+                    this.$destroy()
+                }
+            },
+            mounted() {
+                // 这一个计时器后续会对这个页面的加载造成什么样的影响？
+                this.timer = setInterval(() => {//这里写成向this追加一个属性，而不是生命变量的方式进行
+                    this.opacity -= 0.01
+                    if (this.opacity <= 0) {
+                        this.opacity = 1
+                    }
+                }, 16)
+            },
+            beforeUpdate() {
+                console.log("beforeUpdate");
+                debugger
+                
+            },
+            updated() {
+                console.log("updated");
+                debugger
+                
+            },
+            beforeDestroy() {
+                clearInterval(this.timer)
+                console.log("vm即将销毁");
+            },
+
+        })
+
+        //这种在vue外边定义的计时器，和vue本质上来说并没有什么太大的关系
+        //还是利用之前所学的,这样实现也不符合组件开发的要求。
+
+    </script>
+
+</body>
+
+</html>

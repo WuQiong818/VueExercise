@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../JS/vue.js"></script>
+</head>
+<!-- 
+    需求1：定义一个v-big指令，和v-text功能类似，但会把绑定的数值放大10倍。
+    需求2：定义一个v-fbind指令，和v-bind功能类似，但可以让其所绑定的input元素默认获取焦点。
+    自定义指令总结：
+    		一、定义语法：
+    	    	(1).局部指令：
+    	    				new Vue({															new Vue({
+    	    					directives:{指令名:配置对象}   或   		directives{指令名:回调函数}
+    	    				}) 																		})
+    	    	(2).全局指令：
+    	    					Vue.directive(指令名,配置对象) 或   Vue.directive(指令名,回调函数)  		二、配置对象中常用的3个回调：
+    	    	(1).bind：指令与元素成功绑定时调用。
+    	    	(2).inserted：指令所在元素被插入页面时调用。
+    	    	(3).update：指令所在模板结构被重新解析时调用。  		三、备注：
+    	    	1.指令定义时不加v-，但使用时要加v-；
+    	    	2.指令名如果是多个单词，要使用kebab-case命名方式，不要用camelCase命名。
+-->
+
+<body>
+    <div id="root">
+        <h2>当前的n值是:<span v-text="n"></span> </h2>
+        <!-- <h2>放大10倍后的n值是：<span v-big-number="n"></span> </h2> -->
+        <h2>放大10倍后的n值是:<span v-big="n"></span> </h2>
+        <button @click="n++">点我n+1</button>
+        <hr />
+        <input type="text" v-fbind:value="n">
+
+    </div>
+
+</body>
+<script>
+    Vue.config.productionTip = false
+    //定义全局指令：只能一个一个绑定和定义
+    Vue.directive('fbind', {
+        //指令与元素成功绑定时（一上来）
+        bind(element, binding) {
+            element.value = binding.value
+        },
+        //指令所在元素被插入页面时
+        inserted(element, binding) {
+            element.focus()
+        },
+        //指令所在的模板被重新解析时
+        update(element, binding) {
+            element.value = binding.value
+            // element.focus()
+        },
+
+    })
+
+
+    new Vue({
+        el: '#root',
+        data: {
+            n: 10
+        },
+        directives: {
+            //big函数何时会被调用？1.指令与元素成功绑定时（一上来）。2.指令所在的模板被重新解析时。
+            big(element, binding) {
+                //在这里this的指向是window,而不是vue实例
+                // console.log("element",element)
+                // console.log("binding",binding);
+                //通过element和binding这两个参数，我能够拿到自定义指令绑定的信息和所绑定的数据
+                element.innerText = binding.value * 10//这里并不存在返回值的情况，而是我直接把DOM元素所绑定的节点数据给切换了
+            },
+            // fbind(element, binding) {
+            //     /*  采取这样的方法写，会导致初次加载的时候，input框中无法获得焦点
+            //         原因：向input框中添加焦点的时机不对。
+            //         input框还没有加载到网页上呢？怎么能够向上面添加焦点呢？
+            //         所以，我们如果想要向input上面添加焦点，就需要在inupt框添加到页面后进行
+            //     */
+            //     console.log("element", element)
+            //     console.log("binding", binding);
+            //     element.value = binding.value
+            //     element.focus()
+
+            // }
+            /* fbind: {
+                //指令与元素成功绑定时（一上来）
+                bind(element, binding) {
+                    element.value = binding.value
+                },
+                //指令所在元素被插入页面时
+                inserted(element, binding) {
+                    element.focus()
+                },
+                //指令所在的模板被重新解析时
+                update(element, binding) {
+                    element.value = binding.value
+                    // element.focus()
+                },
+
+            } */
+        }
+    })
+</script>
+
+</html>
