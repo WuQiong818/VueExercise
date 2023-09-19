@@ -10,17 +10,87 @@
 
 <body>
     <div id="root">
-
+        <school></school>
 
     </div>
 
     <script>
-        new Vue({
-            el: '#root',
-            data: {
+        Vue.config.productionTip = false
 
-            }
+        const school = Vue.extend({
+            template: `
+            <div>
+            <h1>{{school.name}}</h1>
+            <h1>{{school.address}}</h1>
+            <button @click='remind'>点我</button>
+            </div>
+            `,
+            data() {
+                return {
+                    school: {
+                        name: '河南科技学院',
+                        address: '新乡市华兰大道'
+                    }
+                }
+            },
+            methods: {
+                remind() {
+                    console.log(this.x);
+                }
+            },
         })
+
+        new Vue({
+          el:"#root",
+          data:{},
+          components:{
+            school
+          }
+        })
+        Vue.prototype.x = 1
+        console.log("原型关系判断",school.prototype.__proto__ ===Vue.prototype);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* 
+        //用这种方法输出c,只会等到一个结果，一个函数式子
+        const c = function Demo() {
+            this.a = 1,
+            this.b =2
+        }
+         */
+
+        // function Demo() {
+        //     this.a = 1,
+        //     this.b =2,
+        //     console.log("Demo的原型对象",Demo.prototype);
+        // }
+
+        // const d = new Demo()//这里我把它当成一个构造函数new出来。
+        //通过这一个方法，我们可以得到一个结果，什么样的结果，一个函数
+        /* 
+        1.这个函数里面都有什么？
+            方法中定义的属性，也就是对象中的属性
+            一个原型的指向：Prototype
+        */
+        // const d1 = new Demo()
+        // const d2 = new Demo()
+        // const d3 = new Demo()
+        // console.log(d1);
     </script>
 
 </body>
