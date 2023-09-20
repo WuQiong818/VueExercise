@@ -2,9 +2,10 @@
 import Vue from 'vue'
 // 引入APP.vue文件,
 import App from './App'
+import plugins from './plugins'
 
 Vue.config.productionTip = false
-
+ Vue.use(plugins,1,2,3)
 new Vue({
   el:'#app',
   render: h => h(App),
