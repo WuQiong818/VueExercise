@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import pubsub from "pubsub-js";
 import MyHeader from "./components/MyHeader";
 import MyFooter from "./components/MyFooter";
 import MyList from "./components/MyList";
@@ -37,7 +38,15 @@ export default {
         }
       });
     },
-    deleteTodo(id) {
+    updateTodo(todoObj,value) {
+      console.log(todoObj);
+      this.todos.forEach((todo) => {
+        if (todo.id == todoObj.id) {
+          todo.todo = value;
+        }
+      });
+    },
+    deleteTodo(_, id) {
       this.todos = this.todos.filter((todo) => {
         return todo.id !== id;
       });
@@ -64,10 +73,14 @@ export default {
   mounted() {
     this.$bus.$on("isAchieve", this.isAchieve);
     this.$bus.$on("deleteTodos", this.deleteTodos);
+    this.$bus.$on("updateTodo", this.updateTodo);
+    this.pId = pubsub.subscribe("deleteTodo", this.deleteTodo);
   },
   destroyed() {
     this.$bus.$off("isAchieve");
     this.$bus.$off("deleteTodos");
+    this.$bus.$off("updateTodo");
+    pubsub.unsubscribe(pId);
   },
 };
 </script>
@@ -98,9 +111,20 @@ body {
   border: 1px solid #bd362f;
 }
 
+.btn-edit {
+  color: #fff;
+  background-color: skyblue;
+  border: 1px solid rgb(102, 157, 179);
+  margin-right: 5px;
+}
+
 .btn-danger:hover {
   color: #fff;
   background-color: #bd362f;
+}
+.btn-edit:hover {
+  color: #fff;
+  background-color: rgb(93, 150, 170);
 }
 
 .btn:focus {

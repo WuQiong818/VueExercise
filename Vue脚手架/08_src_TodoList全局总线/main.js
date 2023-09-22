@@ -8,4 +8,10 @@ Vue.config.productionTip = false
 new Vue({
   el:'#app',
   render: h => h(App),
+  beforeCreate(){
+    //完成通信总线的注册工作
+    Vue.prototype.$bus = this
+  }
 })
+
+// .$mount('#app')

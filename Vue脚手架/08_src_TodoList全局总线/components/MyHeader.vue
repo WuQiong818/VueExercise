@@ -7,7 +7,6 @@
 <script>
 export default {
   name: "MyHeader",
-  props:["receive"],
   data() {
     return {
         title:""
@@ -15,12 +14,18 @@ export default {
   },
   methods: {
     add(){
-        if(this.title.trim !== ""){
+        //校验数据
+        if(this.title.trim() !== ""){
+          //包装数据
             const todoObj = {id:""+Date.now(),todo:this.title,achieve:false}
-            this.receive(todoObj)
+            //调用app组件中的方法，添加todo到list中
+            this.$emit("addTodo",todoObj)
+            //清空输入框
             this.title = ''
+        }else{
+          alert("请输入内容")
         }
-    }
+    },
   },
 };
 </script>

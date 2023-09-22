@@ -1,12 +1,12 @@
 <template>
   <div class="todo-container">
     <div class="todo-wrap">
-      <MyHeader @addTodo="addTodo" />
-      <MyList :todos="todos" />
+      <MyHeader :addTodo="addTodo" />
+      <MyList :todos="todos" :isAchieve="isAchieve" :deleteTodo="deleteTodo" />
       <MyFooter
         :todos="todos"
-        @checkedTodo="checkedTodo"
-        @deleteTodos="deleteTodos"
+        :checkedTodo="checkedTodo"
+        :deleteTodos="deleteTodos"
       />
     </div>
   </div>
@@ -53,22 +53,15 @@ export default {
       });
     },
   },
-  watch: {
-    todos: {
-      deep: true,
-      handler(value) {
+  watch:{
+    todos:{
+      deep:true,
+      handler(value){
         localStorage.setItem("todos", JSON.stringify(value));
-      },
-    },
-  },
-  mounted() {
-    this.$bus.$on("isAchieve", this.isAchieve);
-    this.$bus.$on("deleteTodos", this.deleteTodos);
-  },
-  destroyed() {
-    this.$bus.$off("isAchieve");
-    this.$bus.$off("deleteTodos");
-  },
+      }
+    }
+    
+  }
 };
 </script>
 
