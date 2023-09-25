@@ -33,11 +33,17 @@ export default {
   transition: 1s linear;
 }
 
-/* 这个动画有一点搞不懂，明天研究研究 */
+/* 
+
+
+
+*/
+
 /* .v-enter-active,
 .v-leave-active {
   transition: 1s linear;
 } */
+
 
 .v-enter,
 .v-leave-to {
@@ -45,6 +51,6 @@ export default {
 }
 .v-enter-to,
 .v-leave {
-  transform: translateX(100%);
+  transform: translateX(0);
 }
 </style>

@@ -2,14 +2,12 @@
 import Vue from 'vue'
 // 引入APP.vue文件,
 import App from './App'
-import store from './store/index.js'
 
 Vue.config.productionTip = false
 
 new Vue({
   el:'#app',
   render: h => h(App),
-  store,
   beforeCreate(){
     Vue.prototype.$bus = this
   },

@@ -1,12 +1,9 @@
 <template>
   <div>
     <button @click="show">显示与隐藏</button>
-    <!-- <transition>
-    <h1 v-show="isShow" class="headline">你好啊！！！</h1>
-    </transition> -->
     <transition-group>
-    <h1 v-show="!isShow" :key='1' class="headline">你好</h1>
-    <h1 v-show="isShow" :key='2' class="headline">wangye</h1>
+    <h1 v-show="!isShow" :key='1+1' class="headline">你好</h1>
+    <h1 v-show="isShow" :key='2+1' class="headline">wangye</h1>
     </transition-group>
   </div>
 </template>
@@ -32,12 +29,6 @@ export default {
   background-color: skyblue;
 }
 
-/* .come{
-    animation: getInAndOut 1s;
-}
-.go{
-    animation: getInAndOut 1s reverse;
-} */
 .v-enter-active{
     animation: getInAndOut 1s;
 }

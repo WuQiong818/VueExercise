@@ -10,9 +10,6 @@ import count from "./components/count";
 export default {
   name: "App",
   components: { count },
-  mounted() {
-        console.log("App",this);
-  },
 };
 </script>
 
