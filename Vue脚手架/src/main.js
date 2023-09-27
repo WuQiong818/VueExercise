@@ -2,18 +2,17 @@
 import Vue from 'vue'
 // 引入APP.vue文件,
 import App from './App'
-import store from './store/index.js'
+// 引入VueRouter 这是一个插件，需要引入
+import VueRouter from 'vue-router'
+// 引入路由器 这个是我们配置的路由项，路由需要借助我们的路由中所写的文件进行管理
+import router from './router/index'
 
 Vue.config.productionTip = false
+// 使用vue提供的路由插件
+Vue.use(VueRouter)
 
 new Vue({
   el:'#app',
   render: h => h(App),
-  store,
-  beforeCreate(){
-    Vue.prototype.$bus = this
-  },
-  devServer:{
-    proxy:'http://localhost:8081'
-  }
+  router:router,
 })

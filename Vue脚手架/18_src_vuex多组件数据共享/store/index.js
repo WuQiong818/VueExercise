@@ -35,10 +35,22 @@ const mutations = {
     SUBTRACTION(state, value) {
         state.num -= value;
     },
+    ADDPERSON(state,person){
+        console.log("调用ADDPERSON方法了");
+        state.persons.unshift(person);
+    }
 }
 // 创建state对象，负责对数据状态的保存
 const state = {
     num: 0,
+    address:'三月软件',
+    subject:'编程',
+    persons:[{id:'001',name:'wangye'}]
+}
+const getters = {
+    bigSum(state){
+        return state.num*10;
+    }
 }
 
 //创建并且暴露Store对象，通过new Vuex.Store方法进行创建。
@@ -46,6 +58,7 @@ export default new Vuex.Store({
     actions,
     mutations,
     state,
+    getters,
 })
 
 // 这里你创建暴露的是什么玩意呀，要想vc对象一样，要去new出来

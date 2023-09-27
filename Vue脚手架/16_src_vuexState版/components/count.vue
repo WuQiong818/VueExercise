@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1>当前求和为{{ $store.state.num }}</h1>
+    <h1>在{{ $store.state.address }}</h1>
+    <h1>学习{{ $store.state.subject }}</h1>
     <select v-model.number="select">
       <option value="1">1</option>
       <option value="2">2</option>
