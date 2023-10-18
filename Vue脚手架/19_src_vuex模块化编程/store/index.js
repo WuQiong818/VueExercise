@@ -9,7 +9,7 @@ Vue.use(Vuex)
 // 使用modules进行分别的暴露;
 export default new Vuex.Store({
     modules:{
-    countAbout:countOptions,
+    countAbout:count Options,
     personAbout:personOptions,
     }
 })
