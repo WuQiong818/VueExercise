@@ -1,90 +1,100 @@
 <template>
   <!-- v-show="judgeFinishState" -->
-  <div class="todoItem" >
+  <div class="todoItem">
     <label>
       <input
         class="checkBox"
         type="checkbox"
-        @change="ALTERCHECKBOX(todoObj)"
-        :checked="todoObj.isFinished"
+        @change="ALTERCHECKBOX(todoCopy)"
+        :checked="todoCopy.isFinished"
       />
-      <span v-show="!todoObj.isEdit">{{ todoObj.todoThing.title }}</span>
+      <span v-show="!todoCopy.isEdit">{{ todoCopy.todoThing.title }}</span>
       <input
         class="alterBox"
-        v-show="todoObj.isEdit"
+        v-show="todoCopy.isEdit"
         type="text"
-        :value="todoObj.todoThing.title"
-        @blur="handerBlur(todoObj, $event)"
+        :value="todoCopy.todoThing.title"
+        @blur="handerBlur(todoCopy, $event)"
         ref="inputBox"
       />
     </label>
+
     <div class="operatingButton">
-      <el-button type="primary" @click="edit(todoObj)">编辑</el-button>
-      <el-button type="danger" @click="todoDeleted(todoObj)">删除</el-button>
+      <div class="circleIcon">
+        <el-button
+          type="warning"
+          :icon="todoCopy.isImportance ? 'el-icon-star-on' : 'el-icon-star-off'"
+          circle
+          ref="buttonIco"
+          @click="changeWeight(todoCopy)"
+        ></el-button>
+      </div>
+      <el-button
+        @click="drawer = true"
+        type="primary"
+        style="margin-left: 16px"
+      >
+        点我打开
+      </el-button>
+      <el-drawer title="我是标题" :visible.sync="drawer" :with-header="false">
+        <!-- 这里面可以进行其他功能的嵌套，非常不错 -->
+        <DrawTodo :todoObj ="todoObj"/>
+      </el-drawer>
+      <el-button type="primary" @click="edit(todoCopy)">编辑</el-button>
+      <el-button type="danger" @click="todoDeleted(todoCopy)">删除</el-button>
     </div>
   </div>
 </template>
 
 <script>
 import { mapMutations } from "vuex";
+import DrawTodo from "./DrawTodo.vue";
 export default {
-  name: "todoItem",
-  /* props中的内容，可以直接在模板中进行使用.
-  我如果想要最大程度上去复用这一个组件，
-  那么我应该做的就是设计尽可能多的参数，去自定义我的组件
-  */
-  /* 
-finished、unfinished
-"finishState"
-*/
-
-  props: ["todoObj",],
-  data() {
-    return {};
-  },
-  computed: {
-    // 这里封装的数据发生更改，不在组件内进行封装，而是有封装了一个大的todolist
-    // 直接通过计算，返回一个确定的boolean值
-    // judgeFinishState() {
-    //   const todoObj = this.$props.todoObj;
-    //   const finishState = this.$props.finishState; //我展示的类型是已完成和未完成
-    //   if (finishState == "finished") {
-    //     console.log("finished",todoObj.isFinished);
-    //     return todoObj.isFinished;
-    //   }
-    //   if(finishState == "unfinished"){
-    //     console.log("unfinished",todoObj.isFinished);
-    //     return !todoObj.isFinished
-    //   }
-    // },
-  },
-  methods: {
-    //通过map方法结构之后，可以直接通过this.进行访问
-    ...mapMutations("todolist", ["EDIT", "ALTER", "DELETE", "ALTERCHECKBOX"]),
-
-    edit(todoObj) {
-      this.EDIT(todoObj);
-      this.$nextTick(function () {
-        this.$refs.inputBox.focus();
-      });
+    name: "todoItem",
+    components:{
+      DrawTodo
     },
-    handerBlur(todoObj, e) {
-      console.log("失去焦点了");
-      todoObj.isEdit = false;
-      if (!e.target.value.trim()) return alter("输入不能为空");
-      todoObj.todoThing.title = e.target.value;
-      this.ALTER(todoObj);
+    props: ["todoObj"],
+    data() {
+        return {
+            drawer: false,
+            todoCopy:this.todoObj
+        };
     },
-    todoDeleted(todoObj) {
-      if (confirm("确定删除该" + todoObj.todoThing.title + "吗?")) {
-        this.DELETE(todoObj);
-      }
+    methods: {
+        //通过map方法结构之后，可以直接通过this.进行访问
+        ...mapMutations("todolist", [
+            "EDIT",
+            "ALTER",
+            "DELETE",
+            "ALTERCHECKBOX",
+            "CHANGEWEIGHT",
+        ]),
+        edit(todoCopy) {
+            this.EDIT(todoCopy);
+            this.$nextTick(function () {
+                this.$refs.inputBox.focus();
+            });
+        },
+        handerBlur(todoCopy, e) {
+          todoCopy.isEdit = false;
+            if (!e.target.value.trim()) {
+                alert("输入不能为空");
+                return;
+            }
+            todoCopy.todoThing.title = e.target.value;
+            this.ALTER(todoCopy);
+        },
+        todoDeleted(todoCopy) {
+            if (confirm("确定删除该" + todoCopy.todoThing.title + "吗?")) {
+                this.DELETE(todoCopy);
+            }
+        },
+        changeWeight(todoCopy) {
+            this.CHANGEWEIGHT(todoCopy);
+        },
     },
-  },
-
-  mounted() {
-    console.log("todoItem", this);
-  },
+    components: { DrawTodo }
 };
 </script>
 
@@ -111,11 +121,13 @@ finished、unfinished
   position: absolute;
   top: -2px;
   right: 7px;
+  margin-left:15px;
 }
 
 .alterBox {
-  position: absolute;
-  top: 0px;
+  /* position: absolute;
+  top: 0px; */
+  float: left;
   font-size: 20px;
   height: 46px;
   line-height: 45px;
@@ -124,5 +136,21 @@ finished、unfinished
 /* ----------Element-UI-------------------- */
 .el-button {
   padding: 12px 15px;
+  margin-left: 15px;
+}
+.circleIcon {
+  /* position: absolute;
+  top: 0px;
+  right: 140px; */
+  float: left;
+  height: 45px;
+  width: 45px;
+  border-radius: 45px;
+  padding: 0px 0px;
+  margin-right: 17px;
+}
+.circleIcon /deep/ .el-icon-star-on,
+.circleIcon /deep/ .el-icon-star-off {
+  font-size: 20px;
 }
 </style>

@@ -6,14 +6,15 @@
       ref="inputValue"
       @keyup.enter="add"
     />
-    <!-- <button @click="add">ADD</button> -->
   </div>
 </template>
       
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import { mapMutations } from "vuex";
+import { nanoid } from "nanoid";
 export default {
   name: "Container-Footer",
+  props: ["type"], //todayTask,importantTask,task
   data() {
     return {
       input: "",
@@ -21,25 +22,43 @@ export default {
   },
   methods: {
     ...mapMutations({ ADD: "todolist/ADD" }),
-    add(){
-      this.ADD(this.$refs.inputValue.value)
-      this.$nextTick(function(){
-        this.$refs.inputValue.value = ''
-      })
-    }
-  },
-  mounted() {
-    console.log(this);
-    console.log(this.$refs.inputValue);
+    add() {
+      if (!this.$refs.inputValue.value.trim()) {
+        alert("输入不能为空");
+      } else {
+        const todoObj = {
+          id: nanoid(),
+          todoThing: {
+            title: this.$refs.inputValue.value,
+            steps: [],//数组对象，有每一个对象有两个参数：stepIsFinished,stepTitle
+            startTime: Date.now(),
+            deadline:null
+          },
+          isFinished: false,
+          isTodayTask: false,
+          isImportance: false,
+          isEdit: false,
+        };
+        if (this.type != undefined) {
+          if (this.type == "todayTask") {
+            todoObj.isTodayTask = true;
+          } else if (this.type == "importantTask") {
+            todoObj.isImportance = true;
+          }
+        }
 
-    console.log();
+        this.ADD(todoObj);
+        this.$nextTick(function () {
+          this.$refs.inputValue.value = "";
+        });
+      }
+    },
   },
 };
 </script>
       
 <style scoped>
 .inputBox {
-  /* 没有作用 */
   margin-top: 10px;
 }
 .inputBox input {

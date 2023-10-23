@@ -4,8 +4,6 @@
       <el-menu
         :default-active="$route.path"
         class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
@@ -27,15 +25,15 @@
           <i class="el-icon-setting"></i>
           <span slot="title">已完成&nbsp;</span>
         </el-menu-item>
-        <el-submenu index="5">
+        <el-submenu index="/reviewSummary">
           <template slot="title">
             <i class="el-icon-location"></i>
             <span>复盘总结</span>
           </template>
           <el-menu-item-group>
             <!-- <template slot="title">分组一</template> -->
-            <el-menu-item index="1-1">四象限图</el-menu-item>
-            <el-menu-item index="1-2">消耗折现图</el-menu-item>
+            <el-menu-item index="/fourQuadrant">四象限图</el-menu-item>
+            <!-- <el-menu-item index="/discountedConsumption">消耗折现图</el-menu-item> -->
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -46,14 +44,6 @@
 <script>
 export default {
   name: "Navigation-Bar",
-  methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
-  },
 };
 </script>
          

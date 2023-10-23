@@ -60,7 +60,6 @@ export default {
         localStorage.setItem("todos", JSON.stringify(value));
       }
     }
-    
   }
 };
 </script>

@@ -2,67 +2,37 @@
   <div class="task">
     <h1 style="margin-top: 20px">Task</h1>
     <!-- 这边进行一个未完成和已完成的划分 -->
-    <todolist></todolist>
+    <todolist :originalTodos="originalTodos"></todolist>
+    <div class="footer">
+      <el-footer height="80px">
+        <Footer></Footer>
+      </el-footer>
+    </div>
   </div>
 </template>
 
 <script>
-import todolist from "@/components/todolist.vue";
+import todolist from "@/components/Todolist";
+import Footer from "@/components/Footer";
 export default {
   name: "Task",
-  components: { todolist },
-  // data() {
-  //   return {
-  //     activeNames: ["1"],
-  //   };
-  // },
-  /* 
-             finishState="unfinished"
-             finishState="finished"
-
-*/
-/*   computed: {
-    title() {
-      return getFinishedTodo.length;
+  components: { todolist,Footer },
+  computed: {
+    originalTodos() {
+      return this.$store.state.todolist.todos;
     },
-    // 在这边加上一组过滤器也挺舒服的
-    getUnfinishedTodo() {
-      return this.$store.state.todolist.todos.filter(
-        (item) => item.isFinished == false
-      );
-    },
-    getFinishedTodo() {
-      return this.$store.state.todolist.todos.filter(
-        (item) => item.isFinished == true
-      );
-    },
-  }, */
-  // mounted(){
-  //   console.log("@@",this);
-  // }
+  },
 };
 </script>
 
-<!-- <style scoped>
+<style scoped>
 .task {
   margin-left: 23px;
 }
-.el-collapse {
-  margin-top: 25px;
-  border: 1px solid #87ceeb;
+.footer {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 85vw;
 }
-.el-collapse-item {
-  width: 90%;
-  margin-left: 20px;
-}
-.el-collapse /deep/.el-collapse-item__header {
-  padding-left: 20px;
-  font-size: 17px;
-}
-/*
-/deep/ .el-collapse-item__content{
-  width: 90%;
-  margin-left: 30px;
-
-} */
-</style> -->
+</style>

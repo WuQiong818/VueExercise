@@ -1,14 +1,15 @@
 <template>
   <div>
     <el-collapse v-model="activeNames">
-      <el-collapse-item title="未完成" name="1">
+      <el-collapse-item :title="getUnfinishedCount" name="1" v-show="!getUnfinishedTodo.length == 0">
         <todoItem
           v-for="todoObj in getUnfinishedTodo"
           :key="todoObj.id"
           :todoObj="todoObj"
         ></todoItem>
       </el-collapse-item>
-      <el-collapse-item title="已完成" name="2">
+
+      <el-collapse-item :title="getFinishedCount" name="2" v-show="!getFinishedTodo.length == 0">
         <todoItem
           v-for="todoObj in getFinishedTodo"
           :key="todoObj.id"
@@ -23,23 +24,30 @@ import todoItem from "@/components/TodoItem";
 export default {
   name: "Todolist",
   components: { todoItem },
+  props:["originalTodos"],
   data() {
     return {
       activeNames: ["1"],
     };
   },
   computed: {
-    title() {
-      return getFinishedTodo.length;
+    getUnfinishedCount(){
+        const number = this.getUnfinishedTodo.length
+        return "未完成  " +number
     },
-    // 在这边加上一组过滤器也挺舒服的
+    getFinishedCount(){
+        const number = this.getFinishedTodo.length
+        return "已完成  " +number
+    },
+    // 这两个方法就是负责展示已完成和未完成任务的，其他的不要管
+    // 数据从传入的props中获取，不直接从vuex中进行获取
     getUnfinishedTodo() {
-      return this.$store.state.todolist.todos.filter(
+      return this.$props.originalTodos.filter(
         (item) => item.isFinished == false
       );
     },
     getFinishedTodo() {
-      return this.$store.state.todolist.todos.filter(
+      return this.$props.originalTodos.filter(
         (item) => item.isFinished == true
       );
     },
