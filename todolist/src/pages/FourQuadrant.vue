@@ -26,10 +26,12 @@ export default {
         { id: "1", name: "不重要不紧急" },
       ],
       displayObj:{
-        fontSize: '20px',
+        fontSize: '25px',
         fontWeight:'500'
       },
-      displayNormal:{}
+      displayNormal:{
+
+      }
     };
   },
   methods: {
@@ -134,7 +136,7 @@ export default {
             <transition-group>
               <div
                 :class="item.id == 1 ? 'item forbid' : 'item'"
-                :style="item.id == '1' ? displayObj : displayNormal" 
+                :style="item.id == 1 ? displayObj : displayNormal" 
                 v-for="item in arr1"
                 :key="item.id"
               >
@@ -157,7 +159,7 @@ export default {
             <transition-group>
               <div
                 :class="item.id == 1 ? 'item forbid' : 'item'"
-                :style="item.id == '1' ? displayObj : displayNormal" 
+                :style="item.id == 1 ? displayObj : displayNormal" 
                 v-for="item in arr2"
                 :key="item.id"
               >
@@ -179,7 +181,7 @@ export default {
             <transition-group>
               <div
                 :class="item.id == 1 ? 'item forbid' : 'item'"
-                :style="item.id == '1' ? displayObj : displayNormal" 
+                :style="item.id == 1 ? displayObj : displayNormal" 
                 v-for="item in arr3"
                 :key="item.id"
               >
@@ -201,7 +203,7 @@ export default {
             <transition-group>
               <div
                 :class="item.id == 1 ? 'item forbid' : 'item'"
-                :style="item.id == '1' ? displayObj : displayNormal" 
+                :style="item.id == 1 ? displayObj : displayNormal" 
                 v-for="item in arr4"
                 :key="item.id"
               >
