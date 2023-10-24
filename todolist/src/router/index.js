@@ -23,9 +23,10 @@ const router = new VueRouter({
             redirect: "/sign",
             children: [
                 {
-                    path: 'myDay',
+                    path: 'myDay/',
                     name:"myDay",
                     component: myDay,
+                    
                 },
                 {
                     path: 'importantAffairs',
